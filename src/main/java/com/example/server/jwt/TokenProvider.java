@@ -32,10 +32,15 @@ public class TokenProvider {
     private final Key key;
 
     public TokenProvider(@Value("${jwt.secret}") String secretKey) {
+        //
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
+    /**
+     * 유저 정보를 넘겨받아서 Access Token 과 Refresh Token 을 생성
+     * Authentication 객체에 포함되어 있는 권한 정보들을 담은 토큰을 생성
+     */
     public TokenDto generateTokenDto(Authentication authentication) {
         // 권한들 가져오기
         String authorities = authentication.getAuthorities().stream()
@@ -87,8 +92,12 @@ public class TokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
+    /**
+     * 토큰의 유효성 검사를 할 수 있는 메소드
+     */
     public boolean validateToken(String token) {
         try {
+            // Jwts를 복호화 해줌 -> signwith key를 활용하여 암호화 했으므로 복호화 할 시에도 동일한 key값을 넣어줌
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
@@ -103,6 +112,7 @@ public class TokenProvider {
         return false;
     }
 
+    // parseClaims 메소드는 만료된 토큰이어도 정보를 꺼내기 위해서 따로 분리
     private Claims parseClaims(String accessToken) {
         try {
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
