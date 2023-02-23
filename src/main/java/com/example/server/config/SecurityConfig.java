@@ -57,7 +57,6 @@ public class SecurityConfig {
      * [ CorsConfigurationSource ]
      * 스프링 부트에서 CORS를 해결하는 방법 중 하나
      */
-//    @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -115,7 +114,8 @@ public class SecurityConfig {
                 .and()
                 // URL별 권한 관리를 설정하는 옵션의 시작점
                 .authorizeRequests()
-                .antMatchers("/api/**").permitAll()
+                .antMatchers("/api/login", "/api/signup").permitAll()
+                .antMatchers("/api/chart").hasRole("ADMIN")
                 .anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
 
                 // JwtFilter 를 addFilterBefore 로 등록했던 JwtSecurityConfig 클래스를 적용

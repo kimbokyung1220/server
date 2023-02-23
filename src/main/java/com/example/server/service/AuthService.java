@@ -70,14 +70,6 @@ public class AuthService {
         // header에 Token값 add
         tokenDto.setTokenToHeaders(response);
 
-        // 4. RefreshToken 저장
-//        RefreshToken refreshToken = RefreshToken.builder()
-//                .key(authentication.getName())
-//                .value(tokenDto.getRefreshToken())
-//                .build();
-//
-//        refreshTokenRepository.save(refreshToken);
-
         // 5. 토큰 발급
         return tokenDto;
     }
