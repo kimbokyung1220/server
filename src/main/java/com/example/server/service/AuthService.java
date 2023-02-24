@@ -9,6 +9,7 @@ import com.example.server.jwt.TokenProvider;
 import com.example.server.repository.MemberRepository;
 import com.example.server.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -27,6 +28,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
+//    private final AuthenticationManager authenticationManager;
 
     /**
      * 회원가입
@@ -73,4 +75,15 @@ public class AuthService {
         // 5. 토큰 발급
         return tokenDto;
     }
+
+//    @Transactional
+//    public String login(MemberRequestDto request) throws Exception {
+//        Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(request.getMemberid(), request.getPassword()));
+//
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//        UserDetailsImp principal = (UserDetailsImpl) authentication.getPrincipal();
+//        return principal.getUsername();
+//    }
 }

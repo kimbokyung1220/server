@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -115,7 +116,7 @@ public class SecurityConfig {
                 // URL별 권한 관리를 설정하는 옵션의 시작점
                 .authorizeRequests()
                 .antMatchers("/api/login", "/api/signup").permitAll()
-                .antMatchers("/api/chart").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,"/api/chart").hasRole("ADMIN")
                 .anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
 
                 // JwtFilter 를 addFilterBefore 로 등록했던 JwtSecurityConfig 클래스를 적용
