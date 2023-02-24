@@ -27,8 +27,9 @@ public class SecurityUtil {
     public static String getCurrentAuth() {
         // SecurityContext 는 ThreadLocal 에 사용자의 정보를 저장
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(authentication.getAuthorities());
+        if (authentication == null || !String.valueOf(authentication.getAuthorities()).equals("[ROLE_ADMIN]")) {
 
-        if (authentication == null || !authentication.getAuthorities().equals("ADMIN")) {
             throw  new RuntimeException("admin이 아니에요");
         }
 

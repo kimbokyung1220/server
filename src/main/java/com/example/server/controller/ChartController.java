@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -18,9 +20,8 @@ public class ChartController {
     private final ChartService chartService;
 
     @GetMapping(value = "/chart")
-    public String getChartAll () {
-//        return ResponseEntity.ok(chartService.getChartAll());
-        return chartService.getChartAll();
+    public void getChartAll () {
+        chartService.getChartAll();
     }
 
 }
