@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -48,6 +49,9 @@ public class AuthService {
      */
     @Transactional
     public TokenDto login(MemberRequestDto memberRequestDto, HttpServletResponse response) {
+        Optional<Member> member = Optional.ofNullable(memberRepository.findByMemberid(memberRequestDto.getMemberid())
+                .orElseThrow(() -> new NullPointerException("회원이 없습니다.")));
+
         /**
          * 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
          *  [UsernamePasswordAuthenticationFilter] : 아이디, 패스워드를 이용한 인증을 담당하는 필터
@@ -75,15 +79,4 @@ public class AuthService {
         // 5. 토큰 발급
         return tokenDto;
     }
-
-//    @Transactional
-//    public String login(MemberRequestDto request) throws Exception {
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(request.getMemberid(), request.getPassword()));
-//
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//        UserDetailsImp principal = (UserDetailsImpl) authentication.getPrincipal();
-//        return principal.getUsername();
-//    }
 }

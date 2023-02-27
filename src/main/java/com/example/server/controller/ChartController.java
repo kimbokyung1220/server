@@ -1,5 +1,6 @@
 package com.example.server.controller;
 
+import com.example.server.controller.dto.CustomResponseDto;
 import com.example.server.controller.response.ChartResponseDto;
 import com.example.server.service.ChartService;
 import com.example.server.util.SecurityUtil;
@@ -20,8 +21,8 @@ public class ChartController {
     private final ChartService chartService;
 
     @GetMapping(value = "/chart")
-    public void getChartAll () {
-        chartService.getChartAll();
+    public CustomResponseDto<List<ChartResponseDto>> getChartAll () {
+       return chartService.getChartAll();
     }
 
 }

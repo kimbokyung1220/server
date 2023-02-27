@@ -115,8 +115,8 @@ public class SecurityConfig {
                 .and()
                 // URL별 권한 관리를 설정하는 옵션의 시작점
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/signup").permitAll()
+                .antMatchers("/", "/**").permitAll()
+                .antMatchers("/api/login", "/api/signup").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/chart").hasRole("ADMIN")
                 .anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
 
